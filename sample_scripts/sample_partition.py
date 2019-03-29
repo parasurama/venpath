@@ -29,8 +29,6 @@ col_names_map = {"_c0": "venpath_id",
                  "_c14": "vertical_accuracy",
                  "_c15": "foreground"}
 
-columns = list(col_names_map.values())
-
 
 def rename_columns(df):
     for k,v in col_names_map.items():
@@ -46,12 +44,10 @@ def cast_as_type(df):
     df = df.withColumn("horizontal_accuracy", df["horizontal_accuracy"].cast(IntegerType()))
     df = df.withColumn("vertical_accuracy", df["vertical_accuracy"].cast(IntegerType()))
     df = df.withColumn("foreground", df["foreground"].cast(BooleanType()))
-
     # partition by columsn
     df = df.withColumn("year", year("timestamp"))
     df = df.withColumn("month", month("timestamp"))
     df = df.withColumn("date", dayofmonth("timestamp"))
-
     return df
 
 
@@ -60,8 +56,8 @@ if __name__ == "__main__":
     spark = SparkSession(sc)
 
     # 2 sample files
-    dfs = spark.read.csv("/data/share/venpath/snowball/2016/06/01/0000_part_00.gz",
-                         "/data/share/venpath/snowball/2016/07/01/0000_part_00.gz")
+    dfs = spark.read.csv(["/data/share/venpath/snowball/2016/06/01/0000_part_00.gz",
+                          "/data/share/venpath/snowball/2016/07/01/0000_part_00.gz"])
 
     dfs = rename_columns(dfs)
     dfs = cast_as_type(dfs)
