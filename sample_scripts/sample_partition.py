@@ -31,7 +31,8 @@ col_names_map = {"_c0": "venpath_id",
 
 if __name__ == "__main__":
     sc = SparkContext.getOrCreate()
-    spark = SparkSession(sc).conf
+    spark = SparkSession(sc)
+    spark.conf.set({})
 
     # 2 sample files
     df = spark.read.csv(["/data/share/venpath/snowball/2016/06/01/*.gz",
