@@ -6,7 +6,6 @@ Description: Testing sample
 Author: Prasanna Parasurama
 """
 
-
 from pyspark.sql.types import IntegerType, DoubleType, BooleanType, LongType
 from pyspark.sql.functions import *
 from pyspark.context import SparkContext
@@ -30,13 +29,19 @@ col_names_map = {"_c0": "venpath_id",
                  "_c15": "foreground"}
 
 
-def rename_columns(df):
-    for k,v in col_names_map.items():
+if __name__ == "__main__":
+    sc = SparkContext.getOrCreate()
+    spark = SparkSession(sc).conf
+
+    # 2 sample files
+    df = spark.read.csv(["/data/share/venpath/snowball/2016/06/01/*.gz",
+                         "/data/share/venpath/snowball/2016/07/01/*.gz"])
+
+    # rename columns
+    for k, v in col_names_map.items():
         df = df.withColumnRenamed(k, v)
-    return df
 
-
-def cast_as_type(df):
+    # change types
     df = df.withColumn("venpath_id", df["venpath_id"].cast(LongType()))
     df = df.withColumn("lat", df["lat"].cast(DoubleType()))
     df = df.withColumn("lon", df["lon"].cast(DoubleType()))
@@ -44,26 +49,13 @@ def cast_as_type(df):
     df = df.withColumn("horizontal_accuracy", df["horizontal_accuracy"].cast(IntegerType()))
     df = df.withColumn("vertical_accuracy", df["vertical_accuracy"].cast(IntegerType()))
     df = df.withColumn("foreground", df["foreground"].cast(BooleanType()))
-    # partition by columsn
+    # partition by columns
     df = df.withColumn("year", year("timestamp"))
     df = df.withColumn("month", month("timestamp"))
     df = df.withColumn("date", dayofmonth("timestamp"))
-    return df
 
-
-if __name__ == "__main__":
-    sc = SparkContext.getOrCreate()
-    spark = SparkSession(sc)
-
-    # 2 sample files
-    dfs = spark.read.csv(["/data/share/venpath/snowball/2016/06/01/*.gz",
-                          "/data/share/venpath/snowball/2016/07/01/*.gz"])
-
-    dfs = rename_columns(dfs)
-    dfs = cast_as_type(dfs)
-
-    dfs\
-        .repartition(5)\
+    df\
+        .repartition(10)\
         .write\
         .partitionBy("year", "month", "date")\
         .parquet("/data/share/venpath/sample_partition2")
