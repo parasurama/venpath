@@ -56,14 +56,14 @@ if __name__ == "__main__":
     spark = SparkSession(sc)
 
     # 2 sample files
-    dfs = spark.read.csv(["/data/share/venpath/snowball/2016/06/01/0000_part_00.gz",
-                          "/data/share/venpath/snowball/2016/07/01/0000_part_00.gz"])
+    dfs = spark.read.csv(["/data/share/venpath/snowball/2016/06/01/*.gz",
+                          "/data/share/venpath/snowball/2016/07/01/*.gz"])
 
     dfs = rename_columns(dfs)
     dfs = cast_as_type(dfs)
 
     dfs\
-        .repartition(100)\
+        .repartition(5)\
         .write\
         .partitionBy("year", "month", "date")\
-        .parquet("/data/share/venpath/sample_partition")
+        .parquet("/data/share/venpath/sample_partition2")
