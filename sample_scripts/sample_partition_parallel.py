@@ -66,13 +66,14 @@ def read_transform_write(fpath):
 
     # write back as parquet
 
-    year, month = tuple(fpath.split("/")[5:7])
+    year, month, date = tuple(fpath.split("/")[5:8])
 
     df\
-        .repartition(5)\
+        .repartition(10)\
         .write\
-        .partitionBy("date")\
-        .parquet("/data/share/venpath/sample_partition_parallel/{year}/{month}".format(year=year, month=month))
+        .parquet("/data/share/venpath/sample_partition_parallel2/{year}/{month}/{date}".format(year=year,
+                                                                                               month=month,
+                                                                                               date=date))
     return True
 
 
