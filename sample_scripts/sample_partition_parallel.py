@@ -73,7 +73,6 @@ def read_transform_write(fpath):
         .write\
         .partitionBy("date")\
         .parquet("/data/share/venpath/sample_partition_parallel/{year}/{month}".format(year=year, month=month))
-
     return True
 
 
@@ -86,4 +85,6 @@ if __name__ == "__main__":
     fpaths = [x for x in fpaths if re.search(r"/2016/(06|07)/01", x)]
 
     paths = sc.parallelize(fpaths)
-    paths.map(lambda x: read_transform_write(x))
+    jobs = paths.map(lambda x: read_transform_write(x))
+
+    jobs.collect()
