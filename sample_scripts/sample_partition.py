@@ -58,4 +58,4 @@ if __name__ == "__main__":
         .repartition(10)\
         .write\
         .partitionBy("year", "month", "date")\
-        .parquet("/data/share/venpath/sample_partition2")
+        .parquet("/data/share/venpath/sample_partition2", mode="overwrite")
