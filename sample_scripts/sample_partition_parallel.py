@@ -73,7 +73,8 @@ def read_transform_write(fpath):
         .write\
         .parquet("/data/share/venpath/sample_partition_parallel2/{year}/{month}/{date}".format(year=year,
                                                                                                month=month,
-                                                                                               date=date))
+                                                                                               date=date),
+                 mode="overwrite")
     return True
 
 
