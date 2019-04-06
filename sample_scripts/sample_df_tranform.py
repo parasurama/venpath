@@ -34,8 +34,7 @@ if __name__ == "__main__":
     spark = SparkSession(sc)
 
     # 2 sample files
-    df = spark.read.csv(["/data/share/venpath/snowball/2016/06/01/*.gz",
-                         "/data/share/venpath/snowball/2016/07/01/*.gz"])
+    df = spark.read.csv("/data/share/venpath/snowball/sample_rdd_partition/*.gz")
 
     # rename columns
     for k, v in col_names_map.items():
@@ -55,7 +54,6 @@ if __name__ == "__main__":
     df = df.withColumn("date", dayofmonth("timestamp"))
 
     df\
-        .repartition(10)\
         .write\
         .partitionBy("year", "month", "date")\
-        .parquet("/data/share/venpath/sample_partition2", mode="overwrite")
+        .parquet("/data/share/venpath/sample_df_transform", mode="overwrite")
