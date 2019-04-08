@@ -34,7 +34,7 @@ if __name__ == "__main__":
     spark = SparkSession(sc)
 
     # 2 sample files
-    df = spark.read.csv("/data/share/venpath/rdd_partition/*.gz")
+    df = spark.read.csv("/data/share/venpath/rdd_partition/*.snappy")
 
     # rename columns
     for k, v in col_names_map.items():
