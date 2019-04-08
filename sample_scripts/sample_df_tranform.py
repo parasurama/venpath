@@ -55,5 +55,4 @@ if __name__ == "__main__":
 
     df\
         .write\
-        .partitionBy("year", "month", "date")\
-        .parquet("/data/share/venpath/sample_df_transform", mode="overwrite")
+        .parquet("/data/share/venpath/sample_df_transform2", mode="overwrite")

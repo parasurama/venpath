@@ -11,7 +11,6 @@ from pyspark.sql.types import IntegerType, DoubleType, BooleanType, LongType
 from pyspark.sql.functions import to_timestamp, dayofmonth
 from pyspark.context import SparkContext
 from pyspark.sql.session import SparkSession
-import re
 
 
 col_names_map = {"_c0": "venpath_id",
@@ -45,14 +44,11 @@ def get_possible_paths():
     return paths
 
 
-def read_transform_write(fpath, spark_context):
-    spark = SparkSession(spark_context)
+def read_transform_write(fpath):
 
     df = spark.read.csv(fpath)
-
     for k, v in col_names_map.items():
         df = df.withColumnRenamed(k, v)
-
     # change types
     df = df.withColumn("venpath_id", df["venpath_id"].cast(LongType()))
     df = df.withColumn("lat", df["lat"].cast(DoubleType()))
@@ -61,7 +57,6 @@ def read_transform_write(fpath, spark_context):
     df = df.withColumn("horizontal_accuracy", df["horizontal_accuracy"].cast(IntegerType()))
     df = df.withColumn("vertical_accuracy", df["vertical_accuracy"].cast(IntegerType()))
     df = df.withColumn("foreground", df["foreground"].cast(BooleanType()))
-
     df\
         .write\
         .parquet("/data/share/venpath/sample_transform_preserve_date",
@@ -69,12 +64,12 @@ def read_transform_write(fpath, spark_context):
     return True
 
 
-if __name__ == "__main__":
-    sc = SparkContext.getOrCreate()
-    with open('rdd_paths.txt') as f:
-        fpaths = f.read().split('\n')
+sc = SparkContext.getOrCreate()
+spark = SparkSession(sc)
+with open('rdd_paths.txt') as f:
+    fpaths = f.read().split('\n')
 
-    paths = sc.parallelize(fpaths)
-    jobs = paths.map(lambda x: read_transform_write(x, sc))
+paths = sc.parallelize(fpaths)
+jobs = paths.map(lambda x: read_transform_write(x))
 
-    jobs.collect()
+jobs.collect()
