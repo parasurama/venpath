@@ -45,8 +45,8 @@ def get_possible_paths():
     return paths
 
 
-def read_transform_write(fpath):
-    spark = SparkSession(SparkContext.getOrCreate())
+def read_transform_write(fpath, spark_context):
+    spark = SparkSession(spark_context)
 
     df = spark.read.csv(fpath)
 
@@ -87,6 +87,6 @@ if __name__ == "__main__":
     fpaths = [x for x in fpaths if re.search(r"/2016/(06|07)/01", x)]
 
     paths = sc.parallelize(fpaths)
-    jobs = paths.map(lambda x: read_transform_write(x))
+    jobs = paths.map(lambda x: read_transform_write(x, sc))
 
     jobs.collect()
