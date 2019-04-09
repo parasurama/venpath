@@ -48,12 +48,18 @@ if __name__ == "__main__":
     df = df.withColumn("horizontal_accuracy", df["horizontal_accuracy"].cast(IntegerType()))
     df = df.withColumn("vertical_accuracy", df["vertical_accuracy"].cast(IntegerType()))
     df = df.withColumn("foreground", df["foreground"].cast(BooleanType()))
+
     # partition by columns
     df = df.withColumn("year", year("timestamp"))
     df = df.withColumn("month", month("timestamp"))
     df = df.withColumn("date", dayofmonth("timestamp"))
+    df = df.withColumn("lat_int", floor("lat"))
+    df = df.withColumn("lon_int", floor("lon"))
 
     df\
+        .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground",
+                "year", "month", "date", "lat_int", "lon_int")\
+        .repartition("lat_int", "lon_int", "year", "month", "date")\
         .write\
-        .partitionBy("year", "month", "date")\
+        .partitionBy("lat_int", "lon_int", "year", "month", "date")\
         .parquet("/data/share/venpath/sample", mode="overwrite")
