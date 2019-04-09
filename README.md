@@ -45,6 +45,14 @@ $ spark-submit --num-executors 86 sample_scripts/get_count.py
 
 There are other command line options you can adjust. See [here](https://jaceklaskowski.gitbooks.io/mastering-apache-spark/spark-submit.html).
 
+To use python3.7:
+
+```
+$scl enable miniconda3 bash
+$export PYSPARK_DRIVER_PYTHON=/opt/cdp/miniconda3/bin/python
+$export PYSPARK_PYTHON=/opt/cdp/miniconda3/bin/python
+```
+
 ## Monitoring Jobs
 
 Once you 
