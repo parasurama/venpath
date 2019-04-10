@@ -51,6 +51,6 @@ if __name__ == "__main__":
 
     df\
         .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground")\
-        .sort("lat", "lon", "timestamp")\
+        .sort("timestamp")\
         .write\
-        .parquet("/data/share/venpath/sample", mode="overwrite")
+        .parquet("/data/share/venpath/time_sorted_sample", mode="overwrite")
