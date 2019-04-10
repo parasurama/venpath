@@ -53,8 +53,8 @@ if __name__ == "__main__":
     df = df.withColumn("year", year("timestamp"))
     df = df.withColumn("month", month("timestamp"))
     df = df.withColumn("date", dayofmonth("timestamp"))
-    df = df.withColumn("lat_int", floor("lat" * 10)/10)
-    df = df.withColumn("lon_int", floor("lon" * 10)/10)
+    df = df.withColumn("lat_int", floor(df["lat"] / 10)*10)
+    df = df.withColumn("lon_int", floor(df["lon"] / 10)*10)
 
     df\
         .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground",
