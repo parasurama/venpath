@@ -1,18 +1,16 @@
-# Venpath on CUSP
-
-This 
+# Venpath on CUSP 
 
 
 ## Accessing Data
 
-We have 2 ways to access
-1. Pyspark (interactive, but restrictions on resources)
+We have 2 ways to access the data
+1. Pyspark (interactive, but with restrictions on resources)
 2. spark-submit (batch, less restriction on resources)
 
 ### Pyspark (Interactive)
 
 - Pyspark is the spark python API
-- CUSP limits pyspark usage to 2 cores/user. So, at most you can gain 2x parallelism.   
+- CUSP limits pyspark usage to 2 cores/user. So, at most you can gain 2x parallelism. You may be able to lift this restriction by asking CUSP.    
 ```
 $pyspark
 
