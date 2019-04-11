@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     df\
         .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground",
-                "year", "month", "date")\
+                "year", "month", "date", "lat_int", "lon_int")\
         .repartition("lat_int", "lon_int", "year", "month", "date")\
         .write\
         .partitionBy("lat_int", "lon_int", "year", "month", "date")\
