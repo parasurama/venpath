@@ -53,14 +53,13 @@ if __name__ == "__main__":
     df = df.withColumn("year", year("timestamp"))
     df = df.withColumn("month", month("timestamp"))
     df = df.withColumn("date", dayofmonth("timestamp"))
-    # df = df.withColumn("lat_int", floor(df["lat"] / 10)*10)
-    # df = df.withColumn("lon_int", floor(df["lon"] / 10)*10)
+    df = df.withColumn("lat_int", floor(df["lat"] / 10)*10)
+    df = df.withColumn("lon_int", floor(df["lon"] / 10)*10)
 
     df\
         .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground",
                 "year", "month", "date")\
-        .repartition(20, "year", "month", "date")\
-        .sortWithinPartitions("lat", "lon")\
+        .repartition("lat_int", "lon_int", "year", "month", "date")\
         .write\
-        .partitionBy("year", "month", "date")\
-        .parquet("/data/share/venpath/time_partitioned_lat_lon_sorted_sample", mode="overwrite")
+        .partitionBy("lat_int", "lon_int", "year", "month", "date")\
+        .parquet("/data/share/venpath/lat_lon_time_partitioned", mode="overwrite")
