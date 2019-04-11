@@ -1,5 +1,28 @@
 # Venpath on CUSP 
 
+## Partition Samples
+
+There are 4 different ways 1 month of data (2016-06) is partitioned/sorted for testing:
+
+1. Partitioned by time; Sorted by lat, lon within each partition
+```
+/data/share/venpath/time_partitioned_lat_lon_withinsorted_sample/year=2016/month=6/date=*/*.parquet
+```
+
+2. Partitioned by lat, lon, time 
+```
+/data/share/venpath/time_partitioned_lat_lon_withinsorted_sample/lat_int=10/lon_int=-160/month=6/date=*/*.parquet
+```
+
+3. Sorted by lat, lon, time
+```
+/data/share/venpath/lat_lon_time_sorted_sample/*.parquet
+```
+
+4. Sorted by time
+```
+/data/share/time_sorted_sample
+```
 
 ## Accessing Data
 
@@ -25,10 +48,10 @@ Using Python version 3.7.2 (default, Dec 29 2018 06:19:36)
 SparkSession available as 'spark'.
 
 >>> # loads data from 2016/6/1
->>> df = spark.read.parquet("/data/share/venpath/sample_df_transform/year=2016/month=6/date=1")
+>>> df = spark.read.parquet("/data/share/venpath/time_partitioned_lat_lon_withinsorted_sample/year=2016/month=6/date=1/*.parquet")
 
 >>> # You can also use wildcards. loads data from all of 2016
->>> df = spark.read.parquet("/data/share/venpath/sample_df_transform/year=2016/month=*/date=*")
+>>> df = spark.read.parquet("/data/share/venpath/time_partitioned_lat_lon_withinsorted_sample/year=2016/month=*/date=*/*.parquet")
 ```
 
 ### spark-submit 
