@@ -9,7 +9,7 @@ from pyspark.context import SparkContext
 
 
 sc = SparkContext.getOrCreate()
-rdd = sc.textFile("/data/share/venpath/snowball/2016/06/*/*.gz")
+rdd = sc.textFile("/data/share/venpath/snowball/*/*/*/*.gz")
 
 rdd = rdd.repartition(rdd.getNumPartitions()*25)
 
