@@ -11,7 +11,7 @@ from pyspark.context import SparkContext
 sc = SparkContext.getOrCreate()
 rdd = sc.textFile("/data/share/venpath/snowball/*/*/*/*.gz")
 
-rdd = rdd.repartition(numPartitions=60000)
+rdd = rdd.repartition(numPartitions=100000)
 
 # save as splittable snappy files
 rdd.saveAsTextFile("/data/share/venpath/rdd_partition",
