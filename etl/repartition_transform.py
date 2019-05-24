@@ -52,9 +52,7 @@ fpaths = ["/data/share/venpath/snowball/2016/06",
 def get_file_id(fpath):
     year = fpath.split('/')[-2]
     month = fpath.split('/')[-1].lstrip('0')
-
     file_id = year+"_"+month
-
     return file_id
 
 
@@ -118,10 +116,10 @@ def transform_and_write_df(fpath):
 
 
 def process_data(fpath):
-    id = get_file_id(fpath)
+    file_id = get_file_id(fpath)
     existing_rdd_id = os.popen("hadoop fs -ls /scratch/pp1994/venpath/temp_rdd").read().split()[-1].split('/')[-1]
 
-    if id != existing_rdd_id:
+    if file_id != existing_rdd_id:
         read_repartition_write_rdd(fpath)
 
     transform_and_write_df(fpath)
@@ -133,5 +131,5 @@ if __name__ == "__main__":
     sc = SparkContext.getOrCreate()
     spark = SparkSession(sc)
 
-    for f in fpaths[:2]:
+    for f in fpaths[1:3]:
         process_data(f)
