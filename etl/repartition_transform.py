@@ -100,7 +100,7 @@ def transform_and_write_df(fpath):
     df\
         .withColumn("date", dayofmonth("timestamp"))\
         .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground", "date")\
-        .repartition("date", numPartitions=5)\
+        .repartition(5, "date")\
         .sortWithinPartitions('lat', 'lon')\
         .write\
         .partitionBy("date")\
