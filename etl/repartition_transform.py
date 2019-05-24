@@ -60,7 +60,7 @@ def get_file_id(fpath):
 
 def read_repartition_write_rdd(fpath):
     print("repartitioning rdd ", fpath)
-    sc = SparkContext.getOrCreate()
+
     rdd = sc.textFile(fpath+"/*/*.gz")
 
     rdd = rdd.repartition(numPartitions=2500)
@@ -72,14 +72,11 @@ def read_repartition_write_rdd(fpath):
 
 
 def delete_temp_rdd():
-    os.system("hadoop fs -rm -r /scratch/pp1994/venpath/temp_rdd")
+    os.system("hadoop fs -rm -r -skipTrash /scratch/pp1994/venpath/temp_rdd")
 
 
 def transform_and_write_df(fpath):
     print("transforming df ", fpath)
-
-    sc = SparkContext.getOrCreate()
-    spark = SparkSession(sc)
 
     # 2 sample files
     file_id = get_file_id(fpath)
@@ -105,12 +102,13 @@ def transform_and_write_df(fpath):
     df\
         .withColumn("date", dayofmonth("timestamp"))\
         .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground", "date")\
-        .repartition("date")\
+        .repartition("date", numPartitions=5)\
         .sortWithinPartitions('lat', 'lon')\
         .write\
         .partitionBy("date")\
         .parquet("/scratch/pp1994/venpath/pings/year={}/month={}".format(year, month))
 
+    # static
     df\
         .select("ad_id", "app_id", "id_type", "country_type", "device_make", "device_model", "device_os", "device_os_version")\
         .dropDuplicates()\
@@ -120,11 +118,20 @@ def transform_and_write_df(fpath):
 
 
 def process_data(fpath):
-    read_repartition_write_rdd(fpath)
+    id = get_file_id(fpath)
+    existing_rdd_id = os.popen("hadoop fs -ls /scratch/pp1994/venpath/temp_rdd").read().split()[-1].split('/')[-1]
+
+    if id != existing_rdd_id:
+        read_repartition_write_rdd(fpath)
+
     transform_and_write_df(fpath)
     delete_temp_rdd()
 
 
 if __name__ == "__main__":
+
+    sc = SparkContext.getOrCreate()
+    spark = SparkSession(sc)
+
     for f in fpaths[:2]:
         process_data(f)
