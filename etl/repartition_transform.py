@@ -100,8 +100,7 @@ def transform_and_write_df(fpath):
     df\
         .withColumn("date", dayofmonth("timestamp"))\
         .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground", "date")\
-        .repartition(5, "date")\
-        .sortWithinPartitions('lat', 'lon')\
+        .sort('lat', 'lon')\
         .write\
         .partitionBy("date")\
         .parquet("/scratch/pp1994/venpath/pings/year={}/month={}".format(year, month))
