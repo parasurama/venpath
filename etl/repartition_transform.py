@@ -101,6 +101,7 @@ def transform_and_write_df(fpath):
         .withColumn("date", dayofmonth("timestamp"))\
         .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground", "date")\
         .sort('lat', 'lon')\
+        .coalesce(10)\
         .write\
         .partitionBy("date")\
         .parquet("/scratch/pp1994/venpath/pings/year={}/month={}".format(year, month))
@@ -116,7 +117,12 @@ def transform_and_write_df(fpath):
 
 def process_data(fpath):
     file_id = get_file_id(fpath)
-    existing_rdd_id = os.popen("hadoop fs -ls /scratch/pp1994/venpath/temp_rdd").read().split()[-1].split('/')[-1]
+
+    try:
+        existing_rdd_id = os.popen("hadoop fs -ls /scratch/pp1994/venpath/temp_rdd").read().split()[-1].split('/')[-1]
+    except IndexError:
+        # directory doesn't exist
+        existing_rdd_id = ""
 
     if file_id != existing_rdd_id:
         read_repartition_write_rdd(fpath)
@@ -130,5 +136,5 @@ if __name__ == "__main__":
     sc = SparkContext.getOrCreate()
     spark = SparkSession(sc)
 
-    for f in fpaths[1:3]:
+    for f in fpaths[2:4]:
         process_data(f)
