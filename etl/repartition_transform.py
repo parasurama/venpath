@@ -100,7 +100,7 @@ def transform_and_write_df(fpath):
     df\
         .withColumn("date", dayofmonth("timestamp"))\
         .select("ad_id", "lat", "lon", "timestamp", "horizontal_accuracy", "foreground", "date") \
-        .sort('lat', 'lon')\
+        .sort('lat', 'lon', "ad_id")\
         .write\
         .partitionBy("date")\
         .parquet("/scratch/pp1994/venpath/pings/year={}/month={}".format(year, month))
@@ -135,5 +135,5 @@ if __name__ == "__main__":
     sc = SparkContext.getOrCreate()
     spark = SparkSession(sc)
 
-    for f in fpaths[5:]:
+    for f in fpaths[6:]:
         process_data(f)
