@@ -135,5 +135,5 @@ if __name__ == "__main__":
     sc = SparkContext.getOrCreate()
     spark = SparkSession(sc)
 
-    for f in fpaths[12:]:
+    for f in fpaths[16:]:
         process_data(f)
