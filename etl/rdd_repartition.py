@@ -8,6 +8,25 @@ Author: Prasanna Parasurama
 
 from pyspark.context import SparkContext
 
+fpaths = ["/data/share/venpath/snowball/2016/06",
+          "/data/share/venpath/snowball/2016/07",
+          "/data/share/venpath/snowball/2016/08",
+          "/data/share/venpath/snowball/2016/09",
+          "/data/share/venpath/snowball/2016/10",
+          "/data/share/venpath/snowball/2016/11",
+          "/data/share/venpath/snowball/2016/12",
+          "/data/share/venpath/snowball/2017/01",
+          "/data/share/venpath/snowball/2017/02",
+          "/data/share/venpath/snowball/2017/03",
+          "/data/share/venpath/snowball/2017/04",
+          "/data/share/venpath/snowball/2017/05",
+          "/data/share/venpath/snowball/2017/06",
+          "/data/share/venpath/snowball/2017/07",
+          "/data/share/venpath/snowball/2017/08",
+          "/data/share/venpath/snowball/2017/09",
+          "/data/share/venpath/snowball/2017/10"]
+
+
 sc = SparkContext.getOrCreate()
 rdd = sc.textFile("/data/share/venpath/snowball/*/*/*/*.gz")
 
