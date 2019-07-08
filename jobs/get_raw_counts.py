@@ -19,8 +19,8 @@ num_records_raw = rdd.count()
 
 print(num_records_raw)
 
-with open('counts.txt', 'wr') as f:
-    f.write(num_records_raw)
+with open('raw_counts.txt', 'wr') as f:
+    f.write(str(num_records_raw))
 
 
 
