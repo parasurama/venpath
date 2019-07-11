@@ -40,7 +40,7 @@ We have 2 ways to access the data
 1. Pyspark - interactive, but with heavy restrictions on resources (limited to 2 cores)
 2. spark-submit - batch job, less restriction on resources (limited to 86 cores)
 
-### Pyspark
+### 1. Pyspark
 
 - Pyspark is the spark python API
 - CUSP limits pyspark usage to 2 cores/user. So, at most you can gain 2x parallelism.    
@@ -71,7 +71,7 @@ SparkSession available as 'spark'.
 
 ```
 
-### spark-submit 
+### 2. spark-submit 
 
 - spark-submit is used to run batch applications with python
 - CUSP limits spark-submit usage to 86 cores/user. 
@@ -88,7 +88,7 @@ The most important options are --num-executors, --executor-memory, --driver-memo
 
 See [jobs.sh](jobs.sh) for sample commands. 
 
-### To use python3.7:
+#### To use python3.7 with spark-submit:
 
 ```
 $scl enable miniconda3 bash
