@@ -1,0 +1,18 @@
+pings
+ |-- ad_id: string (nullable = true)
+ |-- lat: double (nullable = true)
+ |-- lon: double (nullable = true)
+ |-- timestamp: timestamp (nullable = true)
+ |-- horizontal_accuracy: integer (nullable = true)
+ |-- foreground: boolean (nullable = true)
+
+
+static
+ |-- ad_id: string (nullable = true)
+ |-- app_id: string (nullable = true)
+ |-- id_type: string (nullable = true)
+ |-- country_type: string (nullable = true)
+ |-- device_make: string (nullable = true)
+ |-- device_model: string (nullable = true)
+ |-- device_os: string (nullable = true)
+ |-- device_os_version: string (nullable = true)

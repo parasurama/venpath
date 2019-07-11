@@ -9,26 +9,27 @@ There are two datasets - `pings` and `static`.
 `pings` contains all the time-variant data points, partitioned by year, month, date.
 
 ```
-pings:
-- ad_id
-- lat
-- lon
-- timestamp
-- horizontal acc
-- foreground
+pings
+ |-- ad_id: string (nullable = true)
+ |-- lat: double (nullable = true)
+ |-- lon: double (nullable = true)
+ |-- timestamp: timestamp (nullable = true)
+ |-- horizontal_accuracy: integer (nullable = true)
+ |-- foreground: boolean (nullable = true)
 ```
 
 `static` contains all the time-invariant data points, partition by year, month.
 ```
 static
-- ad_id
-- app_id
-- id_type
-- country_type
-- device_make
-- device_model
-- device_os
-- device_os_version
+ |-- ad_id: string (nullable = true)
+ |-- app_id: string (nullable = true)
+ |-- id_type: string (nullable = true)
+ |-- country_type: string (nullable = true)
+ |-- device_make: string (nullable = true)
+ |-- device_model: string (nullable = true)
+ |-- device_os: string (nullable = true)
+ |-- device_os_version: string (nullable = true)
+
 ```
 
 You can join `pings` and `static` on `ad_id`.
