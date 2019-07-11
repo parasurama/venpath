@@ -1,0 +1,21 @@
+time-variant:
+- ad_id
+- lat
+- lon
+- timestamp
+- horizontal acc
+- foreground
+
+static
+- ad_id
+- app_id
+- id_type
+- country_type
+- device_make
+- device_model
+- device_os
+- device_os_version
+
+eliminate
+- venpath_id
+- ip
