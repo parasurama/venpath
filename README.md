@@ -63,7 +63,7 @@ SparkSession available as 'spark'.
 >>> # You can also use wildcards. loads data from all of 2016
 >>> df = spark.read.parquet("/scratch/pp1994/venpath/pings/year=2016/month=*/date=*")
 
->>> # static data for 2017_6
+>>> # static data for 2017/6
 >>> static_df = spark.read.parquet("/scratch/pp1994/venpath/static/2017_6")
 
 >>> # all static data
