@@ -124,6 +124,7 @@ yarn logs -applicationId <YOUR_APPLICATION_ID> > logs.txt
 ## Resources
 
 - Intro to Spark Dataframes: https://docs.databricks.com/spark/latest/dataframes-datasets/introduction-to-dataframes-python.html 
-- Spark-sql documentation: https://spark.apache.org/docs/latest/sql-programming-guide.html
+- Spark-sql Guide: https://spark.apache.org/docs/latest/sql-programming-guide.html
+- Pyspark Documentation: https://spark.apache.org/docs/latest/api/python/pyspark.sql.html
 - Mastering Apache Spark: https://jaceklaskowski.gitbooks.io/mastering-apache-spark/
 - Pyspark Cheatsheet: https://s3.amazonaws.com/assets.datacamp.com/blog_assets/PySpark_Cheat_Sheet_Python.pdf
