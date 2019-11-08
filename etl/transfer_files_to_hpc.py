@@ -24,14 +24,14 @@ for i, f in enumerate(files):
     print(i, f)
     year_month_date = "/".join(f.split("/")[-3:])
     cusp_dest_path = "/home/cusp/pp1994/pings/" + year_month_date
-if not os.path.exists(cusp_dest_path):
-    mkdir_p(cusp_dest_path)
+    if not os.path.exists(cusp_dest_path):
+        mkdir_p(cusp_dest_path)
 
-# copy file to local
-os.system("hadoop fs -copyToLocal %s %s" % (f, cusp_dest_path))
+    # copy file to local
+    os.system("hadoop fs -copyToLocal %s %s" % (f, cusp_dest_path))
 
-# rsync to hpc
-os.system("rsync -a -z -v --relative -e ssh %s pp1994@dtn.hpc.nyu.edu:/scratch/pp1994/" % cusp_dest_path)
+    # rsync to hpc
+    os.system("rsync -a -z -v --relative -e ssh %s pp1994@dtn.hpc.nyu.edu:/scratch/pp1994/" % cusp_dest_path)
 
-# remove
-os.system("rm -r %s" % cusp_dest_path)
+    # remove
+    os.system("rm -r %s" % cusp_dest_path)
