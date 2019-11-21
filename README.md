@@ -2,7 +2,7 @@
 
 ## Data
 
-The data is currently located in Dumbo HPC cluster under `/user/pp1994/venpath/pings` and  `/userpp1994/venpath/static`
+The data is currently located in Dumbo HPC cluster under `/user/pp1994/venpath/pings` and  `/user/pp1994/venpath/static`
 
 There are two datasets - `pings` and `static`. 
 
@@ -84,8 +84,6 @@ https://jaceklaskowski.gitbooks.io/mastering-apache-spark/spark-submit.html
 The most important options are --num-executors, --executor-memory, --driver-memory
 
 See [jobs.sh](jobs.sh) for sample commands. 
-
-```
 
 ## Monitoring Jobs (Cloudera HUE, Spark UI etc)
  See HPC wiki: https://wikis.nyu.edu/display/NYUHPC/Clusters+-+Dumbo
